@@ -12,23 +12,27 @@ const routes = [
     {
         path: '/',
         component: Home,
-        name: 'userPage',
+        name: 'home',
         redirect: '/userPage',
         children: [
             {
                 path: '/userPage',
+                name: 'userPage',
                 component: userPage,
             },
             {
                 path: '/rolePage',
+                name: 'rolePage',
                 component: rolePage,
             },
             {
                 path: '/departmentPage',
+                name: 'departmentPage',
                 component: departmentPage,
             },
             {
                 path: '/menuPage',
+                name: 'menuPage',
                 component: menuPage,
             }
         ]

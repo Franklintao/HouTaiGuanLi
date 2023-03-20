@@ -1,33 +1,16 @@
 <template>
   <el-card>
-    <el-form
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-    >
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="40px">
+        <h3>后台管理系统</h3>
       <el-form-item label="账号" prop="username">
-        <el-input
-          type="text"
-          v-model="ruleForm.username"
-          autocomplete="off"
-        ></el-input>
+        <el-input v-model="ruleForm.username" autocomplete="off"></el-input>
       </el-form-item>
 
       <el-form-item label="密码" prop="password">
-        <el-input
-          type="password"
-          v-model="ruleForm.password"
-          autocomplete="off"
-        ></el-input>
+        <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
       </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
-        >
-      </el-form-item>
+      <el-button type="primary" @click="submit" style="margin:auto">提交</el-button>
     </el-form>
   </el-card>
 </template>
@@ -49,8 +32,12 @@
 h2 {
   margin: auto;
 }
+.el-input{
+  width: 250px;
+}
 .el-form-item {
-  margin-top: 22px;
+  margin-top:30px;
+  margin-bottom:30px;
 }
 </style>
 <script>
@@ -59,26 +46,50 @@ export default {
     return {
       ruleForm: {
         username: "",
-        password: "",
+        password: ""
       },
       rules: {
-        username: [{ require: true, trigger: "blur", message: "123" }],
-        password: [{ require: true, trigger: "blur", message: "1234" }],
-      },
+        username: [
+          {
+            validator: (rule, value, callback) =>{
+              if(!value){
+                callback(new Error("请输入用户名"))
+              }else{
+                callback()
+              }
+            },
+            trigger: "blur",
+          }
+        ],
+        password: [
+          {
+            validator: (rule, value, callback) =>{
+              if(!value){
+                callback(new Error("请输入密码"))
+              }else{
+                callback()
+              }
+            },
+            trigger: "blur",
+          }
+        ]
+      }
     };
   },
   methods: {
-    submitForm(formName) {
-      console.log(this.ruleForm);
-      this.$refs[formName].validate((valid) => {
+    submit() {
+      // 验证登录信息
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          alert("submit!");
+          if(this.ruleForm.username === "admin"&&this.ruleForm.password==="admin"){
+            this.$router.push('./userPage')
+          }
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-  },
+  }
 };
 </script>
